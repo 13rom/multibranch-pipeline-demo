@@ -1,0 +1,39 @@
+version: '3'
+
+services:
+  webserver:
+    build: .
+    ports:
+      - "${APACHE_PORT}:80"
+    environment:
+      DB_HOST: crud-database
+      DB_USER: ${MYSQL_USER}
+      DB_PASSWORD: ${MYSQL_PASSWORD}
+      DB_NAME: ${MYSQL_DATABASE}
+    depends_on:
+      - crud-database
+    networks:
+      - crud-network
+
+  crud-database:
+    image: mysql:5.7
+    hostname: crud-database
+    # container_name: crud-database
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    volumes:
+      - ./src/database/script.sql:/docker-entrypoint-initdb.d/script.sql
+      - db-data:/var/lib/mysql
+    networks:
+      - crud-network
+
+networks:
+  crud-network:
+    driver: bridge
+
+volumes:
+  db-data:
+

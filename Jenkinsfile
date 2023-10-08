@@ -1,27 +1,20 @@
 pipeline {
     agent any
     stages {
-        stage('Clone the repository') {
+        stage('Build') {
             steps {
-                sh 'pwd'
-                sh 'ls -la'
-                // git branch: 'feature-branch', url: 'https://github.com/user/repo.git'
+                sh 'echo "Building..."'
             }
         }
-        stage('Check commit message') {
+        stage('Test') {
             steps {
-                // Optional: check commit message for compliance with best practices
+                sh 'echo "Testing..."'
             }
         }
-        stage('Dockerfiles linting') {
+        stage('Deploy') {
             steps {
-                // Dockerfiles linting
+                sh 'echo "Deploying..."'
             }
-        }
-    }
-    post {
-        failure {
-            // Block feature branch merging into the main branch
         }
     }
 }

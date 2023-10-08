@@ -1,19 +1,20 @@
 pipeline {
     agent any
     stages {
-        stage('Build') {
+        stage('Git Checkout') {
             steps {
-                sh 'echo "Building..."'
+                checkout scmGit(branches: [[name: '*/feature-*']], extensions: [], userRemoteConfigs: [[credentialsId: 'github-personal-access-token', url: 'https://github.com/13rom/multibranch-pipeline-demo.git']])
             }
         }
-        stage('Deploy') {
+        stage('Check commit messages') {
             steps {
-                sh 'echo "Deploying..."'
+                sh 'echo "Checking..."'
             }
         }
-        stage('Healthcheck') {
+        stage('Lint Dockerfiles') {
             steps {
-                sh 'echo "Healthchecking..."'
+                sh 'echo "Linting..."'
+                sh 'docker run --rm -i hadolint/hadolint < Dockerfile'
             }
         }
     }

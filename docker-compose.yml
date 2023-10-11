@@ -2,7 +2,8 @@ version: '3'
 
 services:
   webserver:
-    build: .
+    image: 13rom/php-mysql-crud
+    hostname: webserver
     ports:
       - "${APACHE_PORT}:80"
     environment:

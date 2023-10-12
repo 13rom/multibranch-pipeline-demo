@@ -2,7 +2,7 @@ version: '3'
 
 services:
   webserver:
-    image: 13rom/php-mysql-crud
+    image: ${DOCKER_IMAGE}
     hostname: webserver
     ports:
       - "${APACHE_PORT}:80"
@@ -26,7 +26,7 @@ services:
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     volumes:
-      - ./src/database/script.sql:/docker-entrypoint-initdb.d/script.sql
+      - ${SQLSCRIPT}:/docker-entrypoint-initdb.d/script.sql
       - db-data:/var/lib/mysql
     networks:
       - crud-network
